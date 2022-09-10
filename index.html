@@ -1,0 +1,88 @@
+<html>
+
+<head>
+	<style>
+		.buttons {
+			display: flex;
+			width: 100%;
+			height: 100%;
+
+			flex-wrap: wrap;
+		}
+
+		.button {
+			width: 50%;
+			font-size: 48px;
+			background-color: #008800;
+			border: none;
+		}
+
+		.button:not([disabled]) {
+			background-color: #880000;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="buttons">
+		<button class="button"></button>
+		<button class="button"></button>
+		<button class="button"></button>
+		<button class="button"></button>
+	</div>
+	<script>
+		let tasks = [
+			"Android - Fix in-app purchases",
+			"Android - Fix advertisements",
+			"iOS - Fix in-app purchases",
+			"iOS - Fix advertisements",
+		];
+
+		let working = [
+			"Android - In-app purchases working!",
+			"Android - Advertisements working!",
+			"iOS - In-app purchases working!",
+			"iOS - Advertisements working!",
+		];
+
+		let currentTask = -1;
+
+		function next() {
+			let lastTask = currentTask;
+
+			if (currentTask < 0 || Math.random() < 0.75) {
+				currentTask = Math.floor(Math.random() * 4);
+			}
+
+			let i = 0;
+			for (const button of document.getElementsByClassName("button")) {
+				if (currentTask == i) {
+					if (lastTask == currentTask) {
+						let text = "Still broken";
+						if (button.innerText.startsWith(text)) {
+							button.innerText += "!";
+						} else {
+							button.innerText = text;
+						}
+					} else {
+						button.innerText = tasks[i];
+						button.removeAttribute("disabled");
+					}
+				} else {
+					button.innerText = working[i];
+					button.setAttribute("disabled", true);
+				}
+				++i;
+			}
+		}
+
+		for (const button of document.getElementsByClassName("button")) {
+			button.addEventListener("click", next);
+		}
+
+		next();
+
+	</script>
+</body>
+
+</html>
